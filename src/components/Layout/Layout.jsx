@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import Header from '../Header/Header';
 import { Outlet } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
+import { useSelector } from 'react-redux';
+import { fullscreen } from '../../store/sideBarSlice';
+
 
 function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  // const [sideFullScreen, setsideFullScreen] = useState(false);
+  const sideFullScreen = useSelector((state => state.sidebar.status))
   return (
     <div className="flex flex-col min-h-screen">
       <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
@@ -14,7 +18,9 @@ function Layout() {
         {/* Desktop Sidebar - no scroll */}
         <aside
           className={`
-            bg-gray-900 text-white w-64 p-4 hidden md:flex flex-col 
+            bg-gray-900 text-white 
+    transition-[width] duration-300 ease-in-out 
+    ${sideFullScreen ? 'w-24' : 'w-64'}  p-4 hidden md:flex flex-col 
             border-t border-t-purple-500 mt-20 overflow-hidden
           `}
         >

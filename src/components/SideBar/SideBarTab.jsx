@@ -1,11 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { fullscreen } from '../../store/sideBarSlice';
 
 function SideBarTab({ TABITEMS }) {
+    const sideFullScreen = useSelector((state => state.sidebar.status))
+
   return (
     <ul>
       {TABITEMS.map(({ label, icon, to }) => (
-        <li key={label}>
+        <li key={label} title={label}>
           <NavLink
             to={to}
             className={({ isActive }) =>
@@ -14,7 +18,7 @@ function SideBarTab({ TABITEMS }) {
             }
           >
             <span className="text-lg">{icon}</span>
-            <span className="text-sm md:text-base">{label}</span>
+            {sideFullScreen ? "" : <span className="text-sm md:text-base">{label}</span>}
           </NavLink>
         </li>
       ))}
