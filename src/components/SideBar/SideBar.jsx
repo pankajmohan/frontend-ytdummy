@@ -2,7 +2,7 @@ import React from 'react';
 import SideBarTab from './SideBarTab';
 import { useDispatch } from 'react-redux';
 import { AiFillHome, AiOutlineHeart } from 'react-icons/ai';
-import { MdHistory, MdVideoLibrary, MdCollections, MdGroup } from 'react-icons/md';
+import { MdHistory, MdVideoLibrary, MdCollections, MdGroup, MdEdit  } from 'react-icons/md';
 import Button from '../Button';
 import { logout } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';

@@ -11,8 +11,7 @@ import store from "./store/store.js"
 import { Provider } from 'react-redux'
 import AuthLayout from './components/Auth/AuthLayout.jsx'
 import NotFound from './components/ErrorBoundary/NotFound.jsx'
-
-
+import MyContent from './pages/MyContent.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +34,11 @@ const router = createBrowserRouter(
             <Home />
           </AuthLayout>
         } />
+        <Route path='/my-content' element={
+          <AuthLayout authentication={true}>
+            <MyContent />
+          </AuthLayout>
+        } />
       </Route>
        <Route path="*" element={<NotFound />} />
     </>
@@ -43,11 +47,11 @@ const router = createBrowserRouter(
 
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  // </StrictMode>,
+   </StrictMode>,
 )
 
 

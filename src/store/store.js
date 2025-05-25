@@ -4,7 +4,7 @@ import sideBarSlice from "./sideBarSlice";
 const persistedAuth = localStorage.getItem("auth")
   ? {
     status: true,
-    userData: JSON.parse(localStorage.getItem("auth")).user,
+    userData: JSON.parse(localStorage.getItem("auth")),
   }
   : {
     status: false,
