@@ -25,7 +25,6 @@ function Layout() {
 
 
       <div className="flex h-screen">
-      {/* Sidebar */}
       <DesktopSidebar collapsed={sideFullScreen} />
         <MobileSidebar isOpen={sidebarOpen} closeSidebar={() => setSidebarOpen(false)} />
       <Outlet />

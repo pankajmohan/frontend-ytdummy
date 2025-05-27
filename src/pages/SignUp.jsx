@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import Logo from '../components/Logo/Logo';
+import api from '../api/axios'
 
 function SignUp() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function SignUp() {
       if (data.avatar) formData.append('avatar', data.avatar);
       if (data.coverImage) formData.append('coverImage', data.coverImage);
 
-      const response = await axios.post('/api/v1/users/register', formData, {
+      const response = await api.post('/v1/users/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -5,14 +5,15 @@ function DesktopSidebar({ collapsed }) {
   return (
     <aside
       className={`
-        bg-gray-900 text-white 
+        hidden md:flex flex-col bg-gray-900 text-white 
         transition-[width] duration-300 ease-in-out 
-        ${collapsed ? 'w-24' : 'w-64'} 
-        hidden md:flex flex-col p-4
-        border-t border-t-purple-500 mt-20 overflow-hidden
+        ${collapsed ? 'w-20' : 'w-64'} border-t border-t-purple-500 
+        overflow-hidden h-[calc(100vh-5rem)]
       `}
     >
-      <SideBar />
+      <div className="h-full px-2 py-20 ">
+        <SideBar sidebarOpen={!collapsed} classname='pt-20'/>
+      </div>
     </aside>
   );
 }

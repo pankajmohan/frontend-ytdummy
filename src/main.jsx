@@ -6,12 +6,16 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, R
 import Layout from './components/Layout/Layout.jsx'
 import Login from './pages/Login.jsx'
 import SignUp from './pages/SignUp.jsx'
+import EditUser from './pages/EditUser.jsx'
 import Home from './pages/Home.jsx'
 import store from "./store/store.js"
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import AuthLayout from './components/Auth/AuthLayout.jsx'
 import NotFound from './components/ErrorBoundary/NotFound.jsx'
 import MyContent from './pages/MyContent.jsx'
+import WatchVideo from './pages/WatchVideo.jsx'
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,9 +38,19 @@ const router = createBrowserRouter(
             <Home />
           </AuthLayout>
         } />
-        <Route path='/my-content' element={
+        <Route path="/my-content/:username" element={
           <AuthLayout authentication={true}>
             <MyContent />
+          </AuthLayout>
+        } />
+        <Route path='/edit-user' element={
+          <AuthLayout authentication={true}>
+            <EditUser />
+          </AuthLayout>
+        } />      
+        <Route path='/watch-video/:video' element={
+          <AuthLayout authentication={true}>
+            <WatchVideo />
           </AuthLayout>
         } />
       </Route>

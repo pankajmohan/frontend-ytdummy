@@ -8,6 +8,7 @@ const Input = forwardRef(function Input(
     autoComplete = 'off',
     error = '',
     placeholder="",
+    inputType="Input",
     ...props
   },
   ref
@@ -20,7 +21,9 @@ const Input = forwardRef(function Input(
           {label}
         </label>
       )}
-      <input
+      {(inputType == "Input") 
+      ?
+    <input
         id={id}
         ref={ref}
         type={type}
@@ -30,7 +33,19 @@ const Input = forwardRef(function Input(
           border-purple-500 rounded-lg hover:border-purple-900 ${error ? 'border border-red-500' : ''}
           ${className}`}
         {...props}
-      />
+      /> :
+      <textarea 
+      id={id}
+        ref={ref}
+        type={type}
+        autoComplete={autoComplete}
+        placeholder={placeholder}
+        className={`px-3 py-2  bg-gray-800 outline-none focus:bg-gray-700 w-full border
+          border-purple-500 rounded-lg hover:border-purple-900 ${error ? 'border border-red-500' : ''}
+          ${className}`}
+        {...props}
+      />}
+      
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );

@@ -2,24 +2,15 @@ import React, { useEffect, useState } from 'react';
 import VideoThumbs from '../components/VideoThumbs/VideoThumbs';
 import { useSelector } from 'react-redux';
 import api from "../api/axios";
-
-function Home({ height = 'auto' }) {
-  const [myVideos, setMyVideos] = useState([]);
+function watchVideo(height = 'auto') {
   const sidebarWidth = useSelector((state) => state.sidebar.width);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
-    async function fetchVideos() {
-      try {
-        const response = await api.get('/videos/get-all-video-list');
-        setMyVideos(response.data.data.videos);
-      } catch (error) {
-        console.error("Error fetching videos:", error);
-      }
-    }
-
-    fetchVideos();
-  }, []);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [])
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -37,15 +28,9 @@ function Home({ height = 'auto' }) {
       <div className="w-full max-w-[1400px] mx-auto">
         <section className="pb-20">
           <div className="flex flex-wrap gap-4 justify-start">
-            {myVideos.length > 0 ? (
-              myVideos.map((video) => (
-                <VideoThumbs key={video._id} video={video} userinfo={{avatar:video?.ownerInfo?.avatar, username :video?.ownerInfo?.username}}/>
-              ))
-            ) : (
-              <div className="text-gray-400 text-center w-full mt-8">
-                Loading videos or none found.
-              </div>
-            )}
+            <video >
+
+            </video>
           </div>
         </section>
       </div>
@@ -53,4 +38,4 @@ function Home({ height = 'auto' }) {
   );
 }
 
-export default Home;
+export default watchVideo

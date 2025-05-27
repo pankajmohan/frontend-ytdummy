@@ -5,6 +5,9 @@ import {jwtDecode} from "jwt-decode";
 const api = axios.create({
   baseURL: "/api/v1", // Change as per your backend
   withCredentials: true, // Critical to send/receive cookies
+  headers: {
+    'Content-Type': 'application/json' // ✅ This is critical!
+  }
 });
 
 
@@ -29,8 +32,9 @@ api.interceptors.response.use(
   res => res,
   async error => {
     const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
+const isAuthRequest = originalRequest.url.includes('/login') || originalRequest.url.includes('/refresh-token');
+    
+    if (error.response?.status === 401 && !originalRequest._retry  && !isAuthRequest) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });

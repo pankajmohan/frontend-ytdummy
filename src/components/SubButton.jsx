@@ -18,7 +18,7 @@ function SubButton({
 
   return (      
           <button
-           className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg ${bgColor} ${bgColor} ${className} ${hoverbgColor}`} onClick={onClick}{...props} 
+           className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg hover:scale-105 hover:shadow-xl${bgColor} ${bgColor} ${className} ${hoverbgColor}`} onClick={onClick}{...props} 
             
           >
             <span className="text-lg">{icon}</span>
