@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 function SideBar({ sidebarOpen,classname="" }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const username = useSelector(state=>state.auth.userData.username);
+  const username = useSelector(state=>state.auth.userData?.username);
 const TABITEMS = [
   { label: 'Home', icon: <AiFillHome />, to: '/' },
   { label: 'Liked Videos', icon: <AiOutlineHeart />, to: '/my-liked-videos' },
