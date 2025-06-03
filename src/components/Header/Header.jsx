@@ -1,15 +1,19 @@
 import React from 'react';
 import Input from '../Input';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FiMenu } from 'react-icons/fi';
 import Logo from '../Logo/Logo';
 import { useMemo } from 'react';
+import UserDropdown from '../UserDropdown ';
+import { logout } from '../../store/authSlice';
 
 function Header({ toggleSidebar }) {
   const authStatus = useSelector(state => state.auth.status);
   const user = useSelector(state => state.auth.userData);  
   const navigate = useNavigate();
+    const dispatch = useDispatch();
+  
   // const width = 'w_50';
   // const height = 'h_50';
 // const avatar = user?.avatar.replace(
@@ -53,18 +57,11 @@ const avatar = useMemo(() => {
       {/* Right: User or Login */}
       <div className="flex items-center gap-4">
         {authStatus ? (
-          <button
-            onClick={() => navigate(`/my-content/${user?.username}`)}
-            className="flex items-center gap-2 hover:bg-gray-800 px-2 py-1 rounded"
-          >
-            <img
-              src={avatar}
-              alt="User Avatar"
-              className="h-8 w-8 rounded-full sm:h-10 sm:w-10 object-cover"
-            />
-            <span className="hidden sm:inline text-sm font-medium">{fullName}</span>
-          </button>
-        ) : (
+<UserDropdown user={{ ...user, avatar }} onClick={() => {
+            dispatch(logout());
+            localStorage.removeItem('auth');
+            navigate('/login');
+          }}/>        ) : (
           <button
             onClick={() => navigate("/login")}
             className="text-sm font-medium hover:text-purple-400"

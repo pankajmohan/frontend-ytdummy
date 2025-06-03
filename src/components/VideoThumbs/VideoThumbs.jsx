@@ -105,7 +105,7 @@ function VideoThumbs({
           <div className="flex-1 overflow-hidden">
             <div className="flex items-center justify-between">
               <h6 className="font-semibold text-white truncate">{video?.title}</h6>
-              <p className="text-sm text-gray-300 truncate">{formatNumber(video?.view)} views</p>
+              <p className="text-sm text-gray-300 truncate">{formatNumber(video?.viewCount)} views</p>
             </div>
             <p
               className="text-sm text-gray-400 truncate cursor-pointer hover:text-purple-400"

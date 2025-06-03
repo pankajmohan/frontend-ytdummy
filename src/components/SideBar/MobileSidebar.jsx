@@ -29,7 +29,7 @@ function MobileSidebar({ isOpen, closeSidebar }) {
           className="h-full overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
-          <SideBar sidebarOpen={isOpen} />
+          <SideBar sidebarOpen={isOpen} closeSidebar={closeSidebar}/>
         </div>
       </aside>
     </>

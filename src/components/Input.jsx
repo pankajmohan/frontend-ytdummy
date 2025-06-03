@@ -29,7 +29,7 @@ const Input = forwardRef(function Input(
         type={type}
         autoComplete={autoComplete}
         placeholder={placeholder}
-        className={`px-3 py-2  bg-gray-800 outline-none focus:bg-gray-700 w-full border
+        className={`px-3 py-2  text-white bg-gray-800 outline-none focus:bg-gray-700 w-full border
           border-purple-500 rounded-lg hover:border-purple-900 ${error ? 'border border-red-500' : ''}
           ${className}`}
         {...props}
@@ -40,7 +40,7 @@ const Input = forwardRef(function Input(
         type={type}
         autoComplete={autoComplete}
         placeholder={placeholder}
-        className={`px-3 py-2  bg-gray-800 outline-none focus:bg-gray-700 w-full border
+        className={`px-3 py-2  text-white bg-gray-800 outline-none focus:bg-gray-700 w-full border
           border-purple-500 rounded-lg hover:border-purple-900 ${error ? 'border border-red-500' : ''}
           ${className}`}
         {...props}

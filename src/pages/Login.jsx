@@ -17,12 +17,12 @@ function Login() {
     setError("");
     try {
       const response = await api.post('/users/login', data);
-      console.log(response.data.data.user)
+      // console.log(response.data.data.user)
                             localStorage.setItem("auth", JSON.stringify(response.data.data.user ));
 
       dispatch(authLogin(response.data.data.user));
 
-      navigate('/home');
+      navigate('/');
     } catch (error) {
       console.log(error)
       setError(error.response?.data?.message || error.message);
