@@ -3,7 +3,7 @@ import {jwtDecode} from "jwt-decode";
 
 
 const api = axios.create({
-  baseURL: "/api/v1", // Change as per your backend
+baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true, // Critical to send/receive cookies
   headers: {
     'Content-Type': 'application/json' // ✅ This is critical!
