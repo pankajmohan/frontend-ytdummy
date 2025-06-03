@@ -32,7 +32,7 @@ function SignUp() {
       if (data.avatar) formData.append('avatar', data.avatar);
       if (data.coverImage) formData.append('coverImage', data.coverImage);
 
-      const response = await api.post('/v1/users/register', formData, {
+      const response = await api.post('/users/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

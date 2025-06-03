@@ -5,9 +5,16 @@ import api from '../../api/axios';
 import VideoThumbs from '../VideoThumbs/VideoThumbs';
 import { useSelector } from 'react-redux';
 
-function ChannelContentVideo({ setOpen, myVideos, userinfo }) {
+function ChannelContentVideo({ setOpen, myVideos, userinfo ,setMyVideos}) {
  
+const handleRemoveVideo =async (video) =>{  
 
+        const response = await api.post("/videos/deleteVideo",{
+          videoId : video
+        });
+        setMyVideos(response.data.videos)
+
+}
   return (
     <>
       {(!myVideos || myVideos.length === 0) ? (
@@ -29,7 +36,8 @@ function ChannelContentVideo({ setOpen, myVideos, userinfo }) {
             <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 md:ml-[30px] lg:ml-0">
               <div className="flex flex-wrap gap-4">
                 {myVideos.map(video => (
-                  <VideoThumbs key={video._id} video={video} userinfo={userinfo}/>
+                  <VideoThumbs key={video._id} video={video} userinfo={userinfo} isOwner={userinfo.isOwner} 
+  onRemove = {handleRemoveVideo}/>
                 ))}
               </div>
             </section>

@@ -4,18 +4,30 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FiMenu } from 'react-icons/fi';
 import Logo from '../Logo/Logo';
+import { useMemo } from 'react';
 
 function Header({ toggleSidebar }) {
   const authStatus = useSelector(state => state.auth.status);
   const user = useSelector(state => state.auth.userData);  
   const navigate = useNavigate();
+  // const width = 'w_50';
+  // const height = 'h_50';
+// const avatar = user?.avatar.replace(
+//   '/upload/',
+//   `/upload/${width},${height},c_thumb,g_face,r_max/`
+// ) + `?t=${Date.now()}`;    // avatar = avatar
+
+const avatar = useMemo(() => {
+  if (!user?.avatar) return '';
   const width = 'w_50';
   const height = 'h_50';
-const avatar = user?.avatar.replace(
-  '/upload/',
-  `/upload/${width},${height},c_thumb,g_face,r_max/`
-) + `?t=${Date.now()}`;    // avatar = avatar
-
+  return (
+    user.avatar.replace(
+      '/upload/',
+      `/upload/${width},${height},c_thumb,g_face,r_max/`
+    ) + `?t=${Date.now()}`
+  );
+}, [user?.avatar]);
   const fullName = user?.fullName;
 
   return (
@@ -42,7 +54,7 @@ const avatar = user?.avatar.replace(
       <div className="flex items-center gap-4">
         {authStatus ? (
           <button
-            onClick={() => navigate("/my-content")}
+            onClick={() => navigate(`/my-content/${user?.username}`)}
             className="flex items-center gap-2 hover:bg-gray-800 px-2 py-1 rounded"
           >
             <img

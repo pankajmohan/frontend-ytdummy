@@ -22,11 +22,11 @@ function SideBar({ sidebarOpen,classname="" }) {
   const username = useSelector(state=>state.auth.userData.username);
 const TABITEMS = [
   { label: 'Home', icon: <AiFillHome />, to: '/' },
-  { label: 'Liked Videos', icon: <AiOutlineHeart />, to: '/liked' },
-  { label: 'History', icon: <MdHistory />, to: '/history' },
-  { label: 'My Content', icon: <MdVideoLibrary />, to: `/my-content/${username}` },
+  { label: 'Liked Videos', icon: <AiOutlineHeart />, to: '/my-liked-videos' },
+  { label: 'History', icon: <MdHistory />, to: '/my-watched-videos' },
+  // { label: 'My Content', icon: <MdVideoLibrary />, to: `/my-content/${username}` },
   { label: 'Collections', icon: <MdCollections />, to: '/collections' },
-  { label: 'Subscribers', icon: <MdGroup />, to: '/subscribers' },
+  { label: 'Subscribers', icon: <MdGroup />, to: '/subscribers/myself' },
 ];
 
   return (

@@ -13,7 +13,10 @@ import { Provider, useSelector } from 'react-redux'
 import AuthLayout from './components/Auth/AuthLayout.jsx'
 import NotFound from './components/ErrorBoundary/NotFound.jsx'
 import MyContent from './pages/MyContent.jsx'
-import WatchVideo from './pages/WatchVideo.jsx'
+import WatchVideo from './pages/VideoToWatch.jsx'
+import LikedVideos from './pages/LikedVideos.jsx'
+import WatchHistory from './pages/WatchHistory.jsx'
+import Subscribers from './pages/Subscribers.jsx'
 
 
 
@@ -43,12 +46,28 @@ const router = createBrowserRouter(
             <MyContent />
           </AuthLayout>
         } />
+        <Route path="/my-liked-videos" element={
+          <AuthLayout authentication={true}>
+            <LikedVideos />
+          </AuthLayout>
+        } />
+        <Route path="/my-watched-videos" element={
+          <AuthLayout authentication={true}>
+            <WatchHistory />
+          </AuthLayout>
+        } />
         <Route path='/edit-user' element={
           <AuthLayout authentication={true}>
             <EditUser />
           </AuthLayout>
-        } />      
-        <Route path='/watch-video/:video' element={
+        } />  
+        
+        <Route path='/subscribers/:userId' element={
+          <AuthLayout authentication={true}>
+            <Subscribers />
+          </AuthLayout>
+        } />    
+        <Route path='/watch-video/:videoId' element={
           <AuthLayout authentication={true}>
             <WatchVideo />
           </AuthLayout>

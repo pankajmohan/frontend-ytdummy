@@ -3,7 +3,7 @@ import VideoThumbs from '../components/VideoThumbs/VideoThumbs';
 import { useSelector } from 'react-redux';
 import api from "../api/axios";
 
-function Home({ height = 'auto' }) {
+function LikedVideos({ height = 'auto' }) {
   const [myVideos, setMyVideos] = useState([]);
   const sidebarWidth = useSelector((state) => state.sidebar.width);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -11,7 +11,7 @@ function Home({ height = 'auto' }) {
   useEffect(() => {
     async function fetchVideos() {
       try {
-        const response = await api.post('/videos/get-all-video-list');
+        const response = await api.post('/videos/get-liked-video-list');
         setMyVideos(response.data.data.videos);
       } catch (error) {
         console.error("Error fetching videos:", error);
@@ -53,4 +53,4 @@ function Home({ height = 'auto' }) {
   );
 }
 
-export default Home;
+export default LikedVideos;

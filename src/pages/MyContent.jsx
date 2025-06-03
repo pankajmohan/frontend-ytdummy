@@ -16,6 +16,7 @@ function MyContent() {
   const authuser = useSelector((state) => state.auth.userData);
   const { username } = useParams()
   const [open, setOpen] = useState(false);
+  // const [isOwner, setIsOwner] = useState(false);
   const [user, setUser] = useState({
     avatar:"",
     fullName:"",
@@ -35,6 +36,7 @@ function MyContent() {
         const response = await api.get(`/users/c/${username}`);
         setMyVideos(response.data.data.videos);
         setUser(response.data.data)
+        // if(username == authuser.username) setIsOwner(true);
       } catch (error) {
         console.error("Error fetching videos:", error);
       }
@@ -42,7 +44,7 @@ function MyContent() {
   
     useEffect(() => {
       myVideoData();
-    }, []);
+    }, [username]);
 
     
   const onSubmit = async (data) => {
@@ -51,6 +53,7 @@ function MyContent() {
       const formData = new FormData();
       formData.append('title', data.title);
       formData.append('description', data.description);
+      formData.append('tags', data.tags);
       if (data.newVideo) formData.append('newVideo', data.newVideo);
       if (data.thumbnail) formData.append('thumbnail', data.thumbnail);
 
@@ -83,7 +86,7 @@ function MyContent() {
           <li className="w-full"><Button className="w-full border-b-2 border-transparent px-3 py-1.5 text-gray-400">Tweets</Button></li>
           <li className="w-full"><Button className="w-full border-b-2 border-transparent px-3 py-1.5 text-gray-400">Subscribed</Button></li>
         </ul> */}
-        <ChannelContentVideo setOpen={setOpen} myVideos={myVideos} userinfo={{avatar:user.avatar, username :user.username}}/>
+        <ChannelContentVideo setOpen={setOpen} myVideos={myVideos} setMyVideos={setMyVideos}userinfo={{avatar:user.avatar, username :user.username, isOwner: user?.isOwnChannel}}/>
         <DialogWrapper
           open={open}
           setOpen={setOpen}
@@ -137,6 +140,15 @@ function MyContent() {
 
                 />
               )}
+            />
+            <Input
+              placeholder="Tags"
+              {...register("tags", { required: "tags are required" })}
+              inputType="Input"
+              label={"Tags:"}
+              error={errors.tags?.message}
+
+
             />
             <Button
               type="submit"
