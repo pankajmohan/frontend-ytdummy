@@ -93,7 +93,7 @@ function MyContent() {
           title="Upload new video"
         // trigger={<Button>Upload</Button>}
         >
-          <form className="space-y-4 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+          <form className="space-y-4 flex flex-col bg-gray-800" onSubmit={handleSubmit(onSubmit)}>
             <Input
               type="text"
               placeholder="Title"
