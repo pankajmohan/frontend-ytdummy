@@ -2,19 +2,25 @@ import React, { useEffect, useState } from 'react';
 import VideoThumbs from '../components/VideoThumbs/VideoThumbs';
 import { useSelector } from 'react-redux';
 import api from "../api/axios";
+import Loader from '../components/Loader/Loader';
 
 function WatchHistory({ height = 'auto' }) {
   const [myVideos, setMyVideos] = useState([]);
   const sidebarWidth = useSelector((state) => state.sidebar.width);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchVideos() {
+      setLoading(true)
       try {
         const response = await api.post('/videos/get-watched-video-list');
         setMyVideos(response.data.data.videos);
       } catch (error) {
         console.error("Error fetching videos:", error);
+      }finally{
+              setLoading(false)
+
       }
     }
 
@@ -30,6 +36,9 @@ function WatchHistory({ height = 'auto' }) {
   const computedWidth = isMobile ? '100vw' : `calc(100vw - ${sidebarWidth}px)`;
 
   return (
+    <>
+      {loading && <Loader />} {/* 👈 Show loader only during loading */}
+
     <main
       className="overflow-y-auto bg-gray-950 text-white px-4 py-6 mt-16 transition-all duration-300"
       style={{ width: computedWidth, height }}
@@ -50,7 +59,7 @@ function WatchHistory({ height = 'auto' }) {
         </section>
       </div>
     </main>
-  );
+  </>);
 }
 
 export default WatchHistory;

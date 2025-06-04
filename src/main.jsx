@@ -17,7 +17,7 @@ import WatchVideo from './pages/VideoToWatch.jsx'
 import LikedVideos from './pages/LikedVideos.jsx'
 import WatchHistory from './pages/WatchHistory.jsx'
 import Subscribers from './pages/Subscribers.jsx'
-
+import { Toaster } from 'react-hot-toast';
 
 
 const router = createBrowserRouter(
@@ -83,6 +83,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
+      <Toaster position="top-center" reverseOrder={false} />
     </Provider>
    </StrictMode>,
 )

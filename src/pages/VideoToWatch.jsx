@@ -6,11 +6,14 @@ import VideoThumbsList from '../components/VideoThumbs/VideoThumbsList';
 import NewComment from '../components/Comment/NewComment';
 import Comment from '../components/Comment/Comment';
 import api from "../api/axios";
+import Loader from '../components/Loader/Loader';
+
 function WatchVideo({ height = 'auto' }) {
   const sidebarWidth = useSelector((state) => state.sidebar.width);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [myVideos, setMyVideos] = useState([]);
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [video, setVideo] = useState({});
   const [page, setPage] = useState(0);
@@ -38,11 +41,14 @@ function WatchVideo({ height = 'auto' }) {
   }, [videoId]);
   useEffect(() => {
     async function fetchVideos() {
+      setLoading(true)
       try {
         const response = await api.post('/videos/get-related-video-list',{videoId});
         setMyVideos(response.data.data.videos);
       } catch (error) {
         console.error("Error fetching videos:", error);
+      }finally{
+      setLoading(false)
       }
     }
     fetchVideos();
@@ -79,6 +85,9 @@ function WatchVideo({ height = 'auto' }) {
   );
 
   return (
+    <>
+      {loading && <Loader />}
+
     <main
       className="overflow-y-auto bg-gray-950 text-white px-4 py-4 mt-18 transition-all duration-300"
       style={{ width: computedWidth, height }}
@@ -140,7 +149,7 @@ function WatchVideo({ height = 'auto' }) {
           </div>
         </section>
       </div>
-    </main>
+    </main></>
   );
 }
 

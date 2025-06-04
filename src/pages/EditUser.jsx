@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import api from "../api/axios"
 import { login } from '../store/authSlice';
+import Loader from '../components/Loader/Loader';
 function EditUser({ height = 'auto' }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sidebarWidth = useSelector((state) => state.sidebar.width);
   const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -31,6 +33,7 @@ function EditUser({ height = 'auto' }) {
   } = useForm();
 
   const updateUser = async (data) => {
+    setLoading(true)
     setError('');
     try {
       // const formData = new FormData();
@@ -50,18 +53,28 @@ function EditUser({ height = 'auto' }) {
       navigate('/');
     } catch (err) {
       setError(err?.response?.data?.message || 'Something went wrong.');
+    } finally {
+      setLoading(false)
     }
   };
   const changeAvatar = async (files) => {
+    setLoading(true)
     const formData = new FormData();
-    if (files?.[0]) formData.append('avatar', files[0]);
-    const response = await api.patch('/users/avatar', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    localStorage.setItem("auth", JSON.stringify(response.data.data));
+    try {
+      if (files?.[0]) formData.append('avatar', files[0]);
+      const response = await api.patch('/users/avatar', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      localStorage.setItem("auth", JSON.stringify(response.data.data));
       dispatch(login(response.data.data))
 
-    navigate('/');
+      navigate('/');
+    } catch (error) {
+      setError(err?.response?.data?.message || 'Something went wrong.');
+    } finally {
+      setLoading(false)
+    }
+
 
 
 
@@ -69,23 +82,33 @@ function EditUser({ height = 'auto' }) {
 
   const changeCoverImage = async (files) => {
     const formData = new FormData();
+    try {
+      setLoading(true)
+      if (files?.[0]) formData.append('coverImage', files[0]);
+      const response = await api.patch('/users/cover-image', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
 
-    if (files?.[0]) formData.append('coverImage', files[0]);
-    const response = await api.patch('/users/cover-image', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-
-    });
-    localStorage.setItem("auth", JSON.stringify(response.data.data));
+      });
+      localStorage.setItem("auth", JSON.stringify(response.data.data));
       dispatch(login(response.data.data))
 
-    navigate('/');
+      navigate('/');
 
+    } catch (error) {
+      setError(err?.response?.data?.message || 'Something went wrong.');
+
+    } finally {
+      setLoading(false)
+    }
 
 
 
   }
 
   return (
+    <>
+      {loading && <Loader />} {/* 👈 Show loader only during loading */}
+
     <main
       className="overflow-y-auto min-h-[calc(100vh-5rem)] bg-gray-950 text-white flex justify-center items-center px-4 py-10 mt-20 border border-t-purple-500"
       style={{ width: computedWidth, height }}
@@ -183,7 +206,7 @@ function EditUser({ height = 'auto' }) {
         </form>
       </div>
     </main>
-  );
+  </>);
 }
 
 export default EditUser;

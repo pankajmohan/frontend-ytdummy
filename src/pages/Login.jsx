@@ -7,14 +7,16 @@ import { useDispatch } from 'react-redux';
 import { login as authLogin } from "../store/authSlice";
 import api from '../api/axios';
 import Logo from '../components/Logo/Logo';
+import Loader from '../components/Loader/Loader';
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [error, setError] = useState();
-
+  const [loading, setLoading] = useState(false); 
   const login = async (data) => {
     setError("");
+    setLoading(true)
     try {
       const response = await api.post('/users/login', data);
       // console.log(response.data.data.user)
@@ -26,10 +28,15 @@ function Login() {
     } catch (error) {
       console.log(error)
       setError(error.response?.data?.message || error.message);
+    }finally{
+      setLoading(false)
     }
   };
 
   return (
+    <>
+      {loading && <Loader />} {/* 👈 Show loader only during loading */}
+
     <div className="bg-gray-900 w-screen h-screen flex items-center justify-center">
       <div className="bg-gray-950 border border-gray-700 rounded-lg w-full max-w-4xl mx-auto p-6 flex flex-col md:flex-row">
 
@@ -69,7 +76,7 @@ function Login() {
         </div>
       </div>
     </div>
-  );
+  </>);
 }
 
 export default Login;

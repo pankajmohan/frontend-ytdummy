@@ -4,6 +4,7 @@ import { MdEdit } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
 import api from '../../api/axios';
+import Loader from '../Loader/Loader';
 
 function UserChannelData({ user, setOpen, setUser }) {
   const navigate = useNavigate();
@@ -12,19 +13,30 @@ function UserChannelData({ user, setOpen, setUser }) {
   const avatar = user?.avatar.replace('/upload', `/upload/${width},${height},c_thumb,g_face,r_max`);
   const isOwnChannel = user?.isOwnChannel;
   const isSubscribed = user?.isSubscribed;;
-
+  const [loading, setLoading] = useState(false);
   const subscribeUser = async () => {
-    const response = await api.get(`/subscription/subscribe-user/${user._id}`);
-    if (response.data.success) {
-      setUser((prev) => ({
-        ...prev,
-        isSubscribed: true,
-        subscribersCount: prev.subscribersCount + 1
-      }))
+    try {
+      setLoading(true)
+      const response = await api.get(`/subscription/subscribe-user/${user._id}`);
+      if (response.data.success) {
+        setUser((prev) => ({
+          ...prev,
+          isSubscribed: true,
+          subscribersCount: prev.subscribersCount + 1
+        }))
+      }
+    } catch (error) {
+      console.error(error)
+    }finally{
+            setLoading(false)
+
     }
   }
   const unSubscribeUser = async () => {
-    const response = await api.get(`/subscription/unsubscribe-user/${user._id}`);
+        setLoading(true)
+
+    try {
+      const response = await api.get(`/subscription/unsubscribe-user/${user._id}`);
     if (response.data.success) {
       setUser((prev) => ({
         ...prev,
@@ -32,9 +44,19 @@ function UserChannelData({ user, setOpen, setUser }) {
         subscribersCount: Math.max(prev.subscribersCount - 1, 0)
       }))
     }
+    } catch (error) {
+      console.error(error);
+      
+    }finally{
+          setLoading(false)
+
+    }
   }
 
   return (
+    <>
+      {loading && <Loader />} {/* 👈 Show loader only during loading */}
+
     <div className="flex flex-wrap gap-4 pb-4 pt-6 border-b border-b-white">
       <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
         <img src={avatar} alt="Channel" className="h-full w-full" />
@@ -64,7 +86,7 @@ function UserChannelData({ user, setOpen, setUser }) {
         </div>
       </div>
     </div>
-  )
+  </>)
 }
 
 export default UserChannelData

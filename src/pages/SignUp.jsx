@@ -8,12 +8,14 @@ import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import Logo from '../components/Logo/Logo';
 import api from '../api/axios'
+import Loader from '../components/Loader/Loader';
+
 
 function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState();
-
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -23,6 +25,7 @@ function SignUp() {
 
   const registerUser = async (data) => {
     setError('');
+    setLoading(true)
     try {
       const formData = new FormData();
       formData.append('fullName', data.fullName);
@@ -42,16 +45,22 @@ function SignUp() {
       navigate('/login');
     } catch (err) {
       setError(err?.response?.data?.message || 'Something went wrong.');
+    } finally {
+      setLoading(false)
+
     }
   };
 
   return (
+    <>
+      {loading && <Loader />} {/* 👈 Show loader only during loading */}
+
     <div className="bg-gray-900 w-screen h-screen flex items-center justify-center">
       <div className="bg-gray-950 border border-gray-600 rounded-lg w-[800px] p-6 flex flex-row">
         {/* Left Side – Info */}
         <div className="w-1/2 flex flex-col justify-center items-center text-white p-4 border-r border-gray-70 gap-1.5">
-         <h2 className="text-xl font-bold mb-4 text-center" style={{margin:0}}>Welcome!<br /> to </h2>
-                    <Logo />
+          <h2 className="text-xl font-bold mb-4 text-center" style={{ margin: 0 }}>Welcome!<br /> to </h2>
+          <Logo />
           <p className="text-sm text-gray-300 text-center">
             Register to access all features. Upload your avatar and cover image.
           </p>
@@ -138,7 +147,7 @@ function SignUp() {
         </div>
       </div>
     </div>
-  );
+  </>);
 }
 
 export default SignUp;

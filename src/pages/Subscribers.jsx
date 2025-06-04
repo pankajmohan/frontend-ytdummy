@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axios';
 import moment from 'moment';
+import Loader from '../components/Loader/Loader';
 
 function Subscribers({ height = 'auto' }) {
   const [subscribers, setSubscriber] = useState([]);
+  const [loading, setLoading] = useState(true);
   const sidebarWidth = useSelector((state) => state.sidebar.width);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { userId } = useParams();
@@ -13,12 +15,16 @@ function Subscribers({ height = 'auto' }) {
 const navigate = useNavigate() 
   useEffect(() => {
     async function fetchSubscribers() {
+      setLoading(true)
       try {
         const useridentity = userId === 'myself' ? user._id : userId;
         const response = await api.post('/subscription/get-subscriber', { channelId: useridentity });
         setSubscriber(response.data.data);
       } catch (error) {
         console.error("Error fetching subscribers:", error);
+      }finally{
+              setLoading(false)
+
       }
     }
 
@@ -34,8 +40,11 @@ const navigate = useNavigate()
   const computedWidth = isMobile ? '100vw' : `calc(100vw - ${sidebarWidth}px)`;
 
   return (
+  <>
+      {loading && <Loader />} 
+
     <main
-      className="overflow-y-auto bg-gray-950 text-white px-4 py-6 mt-20 transition-all duration-300"
+      className="overflow-y-auto bg-gray-950 text-white px-4 py-6 mt-16 transition-all duration-300"
       style={{ width: computedWidth, height }}
     >
       <div className="w-full max-w-[1400px] mx-auto">
@@ -109,7 +118,7 @@ const navigate = useNavigate()
         </section>
       </div>
     </main>
-  );
+  </>);
 }
 
 export default Subscribers;
