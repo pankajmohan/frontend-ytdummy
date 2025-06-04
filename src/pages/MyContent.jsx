@@ -72,7 +72,7 @@ function MyContent() {
   }
   const coverImage = user.coverImage?.replace("/upload","/upload/w_1280,h_720,c_fill,g_auto,f_auto,q_auto,r_12/")
   return (
-    <main className="mt-20 overflow-y-auto h-[calc(100vh-5rem)] bg-gray-950 text-white border border-t-purple-500">
+    <main className="mt-16 overflow-y-auto h-[calc(100vh-5rem)] bg-gray-950 text-white border border-t-purple-500">
       <CoverImage src={coverImage} alt="Cover" height="16rem" />
       <div className="px-4 pb-4">
         <UserChannelData user={user} setOpen={setOpen} setUser={setUser}/>
@@ -93,7 +93,7 @@ function MyContent() {
           title="Upload new video"
         // trigger={<Button>Upload</Button>}
         >
-          <form className="space-y-4 flex flex-col bg-gray-800" onSubmit={handleSubmit(onSubmit)}>
+          <form className="space-y-4 flex flex-col " onSubmit={handleSubmit(onSubmit)}>
             <Input
               type="text"
               placeholder="Title"
