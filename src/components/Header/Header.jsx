@@ -57,11 +57,7 @@ const avatar = useMemo(() => {
       {/* Right: User or Login */}
       <div className="flex items-center gap-4">
         {authStatus ? (
-<UserDropdown user={{ ...user, avatar }} onClick={() => {
-            dispatch(logout());
-            localStorage.removeItem('auth');
-            navigate('/login');
-          }}/>        ) : (
+<UserDropdown user={{ ...user, avatar }} />        ) : (
           <button
             onClick={() => navigate("/login")}
             className="text-sm font-medium hover:text-purple-400"
